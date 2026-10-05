@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "build": "npm run build --prefix client",
+    "start": "npm start --prefix server",
+    "format": "prettier . --write"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3",
+    "prettier": "^3.8.4"
+  }
+}

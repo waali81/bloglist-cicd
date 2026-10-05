@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlVzZXIxIiwiaWQiOiI2OWViMTAxZWYxZTBlYTA1YTBlNDNhYTEiLCJpYXQiOjE3NzcwMTI4NDUsImV4cCI6MTc3NzAxNjQ0NX0.8p0rZsYgmReMxm7Uak15MKva3bPVTK8Pf11_k9HCaU8
+Content-Type: application/json
+
+{
+  "title": "Testi blogi2",
+  "author": "Minä",
+  "url": "http://testi.com"
+}
