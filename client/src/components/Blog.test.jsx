@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import BlogView from './BlogView'
 import BlogForm from './BlogForm'
-import { vi } from 'vitest'
+import { vi, beforeEach } from 'vitest'
+import useUserStore from '../stores/userStore'
 
 const blog = {
   title: 'React patterns',
@@ -14,6 +15,10 @@ const blog = {
     name: 'Timo Waali'
   }
 }
+
+beforeEach(() => {
+  useUserStore.getState().logout()
+})
 
 describe('<BlogView />', () => {
   test('shows title, author, url and likes', () => {
@@ -28,11 +33,11 @@ describe('<BlogView />', () => {
   })
 
   test('non-owner user sees only like button', () => {
-    const user = {
+    useUserStore.getState().setUser({
       username: 'someoneelse'
-    }
+    })
 
-    render(<BlogView blog={blog} user={user} />)
+    render(<BlogView blog={blog} />)
 
     expect(screen.getByText('like')).toBeVisible()
     expect(screen.queryByText('remove')).toBeNull()
@@ -45,28 +50,33 @@ describe('<BlogView />', () => {
   })
 
   test('delete button is shown only for owner', () => {
-    const ownerUser = {
+    useUserStore.getState().setUser({
       username: 'twaali'
-    }
+    })
 
-    const anotherUser = {
-      username: 'someoneelse'
-    }
-
-    const { rerender } = render(<BlogView blog={blog} user={ownerUser} />)
+    const { rerender } = render(<BlogView blog={blog} />)
 
     expect(screen.getByText('remove')).toBeVisible()
 
-    rerender(<BlogView blog={blog} user={anotherUser} />)
+    act(() => {
+      useUserStore.getState().setUser({
+        username: 'someoneelse'
+      })
+    })
+
+    rerender(<BlogView blog={blog} />)
 
     expect(screen.queryByText('remove')).toBeNull()
   })
 
   test('like button click calls handler twice', async () => {
-    const user = { username: 'twaali' }
+    useUserStore.getState().setUser({
+      username: 'twaali'
+    })
+
     const mockHandler = vi.fn()
 
-    render(<BlogView blog={blog} user={user} handleLike={mockHandler} />)
+    render(<BlogView blog={blog} handleLike={mockHandler} />)
 
     const userEventSetup = userEvent.setup()
     const button = screen.getByText('like')

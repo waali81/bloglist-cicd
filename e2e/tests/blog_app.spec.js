@@ -67,12 +67,15 @@ describe('Blog app', () => {
         'www.testi.fi'
       )
 
-      const blog = page
+/*       const blog = page
         .locator('.blog')
         .filter({
           hasText: 'Playwright blog'
         })
         .first()
+
+      await expect(blog).toBeVisible() */
+      const blog = page.getByRole('link', { name: 'Playwright blog' })
 
       await expect(blog).toBeVisible()
     })
@@ -80,7 +83,7 @@ describe('Blog app', () => {
     test('a blog can be liked', async ({ page }) => {
       await createBlog(page, 'Like test blog', 'Teppo Testaaja', 'www.testi.fi')
 
-      const blog = page
+/*       const blog = page
         .locator('.blog')
         .filter({
           hasText: 'Like test blog'
@@ -89,7 +92,13 @@ describe('Blog app', () => {
 
       await expect(blog).toBeVisible()
 
-      await blog.getByRole('link').click()
+      await blog.getByRole('link').click() */
+
+      const blog = page.getByRole('link', { name: 'Like test blog' })
+
+      await expect(blog).toBeVisible()
+
+      await blog.click()
 
       const likeButton = page.getByRole('button', { name: 'like' })
 
@@ -110,7 +119,7 @@ describe('Blog app', () => {
         'www.testi.fi'
       )
 
-      const blog = page
+/*       const blog = page
         .locator('.blog')
         .filter({
           hasText: 'Delete test blog'
@@ -119,7 +128,12 @@ describe('Blog app', () => {
 
       await expect(blog).toBeVisible()
 
-      await blog.getByRole('link').click()
+      await blog.getByRole('link').click() */
+      const blog = page.getByRole('link', { name: 'Delete test blog' })
+
+      await expect(blog).toBeVisible()
+
+      await blog.click()
 
       page.on('dialog', (dialog) => dialog.accept())
 
