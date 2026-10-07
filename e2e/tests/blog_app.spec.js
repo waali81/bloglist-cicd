@@ -67,14 +67,6 @@ describe('Blog app', () => {
         'www.testi.fi'
       )
 
-/*       const blog = page
-        .locator('.blog')
-        .filter({
-          hasText: 'Playwright blog'
-        })
-        .first()
-
-      await expect(blog).toBeVisible() */
       const blog = page.getByRole('link', { name: 'Playwright blog' })
 
       await expect(blog).toBeVisible()
@@ -82,17 +74,6 @@ describe('Blog app', () => {
 
     test('a blog can be liked', async ({ page }) => {
       await createBlog(page, 'Like test blog', 'Teppo Testaaja', 'www.testi.fi')
-
-/*       const blog = page
-        .locator('.blog')
-        .filter({
-          hasText: 'Like test blog'
-        })
-        .first()
-
-      await expect(blog).toBeVisible()
-
-      await blog.getByRole('link').click() */
 
       const blog = page.getByRole('link', { name: 'Like test blog' })
 
@@ -119,16 +100,6 @@ describe('Blog app', () => {
         'www.testi.fi'
       )
 
-/*       const blog = page
-        .locator('.blog')
-        .filter({
-          hasText: 'Delete test blog'
-        })
-        .first()
-
-      await expect(blog).toBeVisible()
-
-      await blog.getByRole('link').click() */
       const blog = page.getByRole('link', { name: 'Delete test blog' })
 
       await expect(blog).toBeVisible()
@@ -155,15 +126,12 @@ describe('Blog app', () => {
       await page.getByRole('button', { name: 'logout' }).click()
 
       await loginWith(page, 'toinen', 'salasana')
+      await page.goto('/')
 
-      const blog = page
-        .locator('.blog')
-        .filter({
-          hasText: 'Permission test blog'
-        })
-        .first()
+      const blog = page.getByRole('link', { name: 'Permission test blog' })
 
-      await page.getByRole('link', { name: /Permission test blog/ }).click()
+      await expect(blog).toBeVisible()
+      await blog.click()
 
       await expect(
         page.getByRole('button', { name: 'remove' })
