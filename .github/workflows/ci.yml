@@ -56,3 +56,11 @@ jobs:
 
       - name: Run E2E tests
         run: npm test --prefix e2e
+  deploy:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    needs: [build_and_test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Render deployment
+        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
