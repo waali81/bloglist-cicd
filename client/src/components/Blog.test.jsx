@@ -29,7 +29,7 @@ describe('<BlogView />', () => {
     expect(screen.getByText('React patterns')).toBeVisible()
     expect(screen.getByText(/Michael Chan/)).toBeVisible()
     expect(screen.getByText('https://reactpatterns.com/')).toBeVisible()
-    expect(screen.getByText('likes 7')).toBeVisible()
+    expect(screen.getByText('likes 999')).toBeVisible()
   })
 
   test('non-owner user sees only like button', () => {
